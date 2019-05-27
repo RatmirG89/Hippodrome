@@ -1,0 +1,70 @@
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+public class Hippodrome {
+    private List<Horse> horses;
+    static Hippodrome game;
+    private ArrayList<Horse> list;
+
+    public Hippodrome(List list){
+        horses = list;
+    }
+    public static void main(String[] args) throws InterruptedException {
+        ArrayList<Horse> list = new ArrayList<>();
+        list.add(new Horse("Лошадь_1", 3, 0));
+        list.add(new Horse("Лошадь_2", 3, 0));
+        list.add(new Horse("Лошадь_3", 3, 0));
+        list.add(new Horse("Лошадь_4", 3, 0));
+        list.add(new Horse("Лошадь_5", 3, 0));
+        list.add(new Horse("Лошадь_6", 3, 0));
+        list.add(new Horse("Лошадь_7", 3, 0));
+        list.add(new Horse("Лощадь_8", 3, 0));
+        list.add(new Horse("Лошадь_9", 3, 0));
+        list.add(new Horse("Лошадь_10", 3, 0));
+        game = new Hippodrome(list);
+        game.run();
+        game.printWinner();
+
+    }
+    public List<Horse> getHorses(){
+        return horses;
+    }
+    public void run() throws InterruptedException {
+        for (int a = 1; a <= 100; a++){
+            move();
+            print();
+            Thread.sleep(200);
+        }
+    }
+    public void move(){
+        for (int a = 0; a < horses.size(); a++){
+            horses.get(a).move();
+        }
+    }
+    public void print(){
+        for (int a = 0; a < horses.size(); a++){
+            horses.get(a).print();
+        }
+        System.out.println();
+    }
+    public List<Horse> getWinner(){
+        Horse horse = null;
+        list = new ArrayList<>(horses);
+        list.sort(Comparator.comparingDouble(Horse::getDistance));
+        return list;
+    }
+    public void printWinner(){
+        int count = 1;
+        for (int a = 0; a < getWinner().size()-1; a++){
+            if (getWinner().get(a).getDistance() == getWinner().get(getWinner().size()-1).getDistance()){
+                count++;
+            }
+        }
+        for (int a = 1; a <= count; a++){
+            System.out.println("Winner is "+getWinner().get(getWinner().size()-a).getName());
+            //System.out.printf("Distance: %.2f", getWinner().get(getWinner().size()-a).getDistance());
+        }
+
+    }
+}
